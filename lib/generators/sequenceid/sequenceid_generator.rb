@@ -2,7 +2,7 @@ require 'rails/generators/active_record'
 
 class SequenceidGenerator < ActiveRecord::Generators::Base
   #Rails::Generators::NamedBase
-  desc "This generator is for sequenceid, which creates sequential id's in the URL for nested resources. Especially useful for SaaS based apps where the unique resource is likely a nested resource of company"
+  desc "This generator is for sequenceid, which creates sequential id's in the URL for nested resources. Especially useful for SaaS based apps where the unique resource is likely a nested resource of company\n Usage: rails generate sequenceid <parent resource> <nested resource>"
   ORM=ActiveRecord::Base #TODO: Make this generic for other ORM's
   source_root File.expand_path("../template",__FILE__)
 
@@ -47,6 +47,6 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
     migration_template "migration.rb", "db/migrate/add_sequence_num_to_#{@nested_resource.to_s.downcase.pluralize}"
     #inject into model class module includeA
     @model_path ||= File.join("app", "models", "#{@nested_resource.to_s.underscore}.rb")
-    inject_into_class(@model_path,@nested_resource,"sequenceid :'#{@parent_resource.to_s}','#{@nested_resource.to_s.downcase.pluralize}\n")
+    inject_into_class(@model_path,@nested_resource,"sequenceid '#{@parent_resource.to_s.downcase}','#{@nested_resource.to_s.downcase.pluralize}'\n")
   end
 end
