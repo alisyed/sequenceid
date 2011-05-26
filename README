@@ -1,0 +1,9 @@
+For SaaS applications it is sometimes important to show the resource URL to be sequentially incrementing and starting from 1. In a standard Rails app, the id's are unique to the whole system, however when the need is to make the id look unique to each company thats signed up, this is the gem!
+
+Usage: rails generate sequenceid <parent resource> <nested resource> 
+eg, rails generate company user
+the nested resource must be in someway nested to the parent resource to avoid a conflict in url's
+eg, if a company is represented by subdomain of the url, you will always have a unique url for the user even though the sequence id's might be shared
+puts "so if two company's exist, 7vals and sevenvals, then their first users will have urls: http://7vals.easyofficeinventory.com/users/1 and http://sevenvals.easyofficeinventory.com/users/1
+puts "note how the users/1 is now used to get the sequence number and NOT the unique id of the user
+
