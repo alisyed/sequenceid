@@ -47,6 +47,6 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
     migration_template "migration.rb", "db/migrate/add_sequence_num_to_#{@nested_resource.to_s.downcase.pluralize}"
     #inject into model class module includeA
     @model_path ||= File.join("app", "models", "#{@nested_resource.to_s.underscore}.rb")
-    inject_into_class(@model_path,@nested_resource,"sequenceid :#{@parent_resource.to_s}\n")
+    inject_into_class(@model_path,@nested_resource,"sequenceid :'#{@parent_resource.to_s}','#{@nested_resource.to_s.downcase.pluralize}\n")
   end
 end
