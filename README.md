@@ -59,7 +59,7 @@ for this project.
 
 If you have a bug to report, please include the following information:
 
-* **Version information for FriendlyId, Rails and Ruby.**
+* **Version information for SequenceId, Rails and Ruby.**
 * Stack trace and error message.
 * Any snippets of relevant model, view or controller code that shows how your
   are using SequenceId
@@ -69,8 +69,8 @@ If you have a bug to report, please include the following information:
 SequenceId was create by Syed Ali @ 7vals
 
 Special thanks to
-*  [cancan](https://github.com/ryanb/cancan)
-*  [FriendlyId](https://github.com/norman/friendly_id)
+*   [cancan](https://github.com/ryanb/cancan)
+*   [FriendlyId](https://github.com/norman/friendly_id)
 
 for serving as a template on certain best practices.
 
