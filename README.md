@@ -20,6 +20,8 @@ SequenceId is a fairly straight forward gem and you need to ensure only ONE cond
 
 Back to our original example, if you want invoices to start from 1 for each new company, the Invoice RESOURCE is nested to the Company RESOURCE. The gem will check for the relationhip in the database (Invoice table in this case) and ensure the sequence_num (SequenceId column created in the table)  and the parent resource_id are a secondary compound key in the nested resource's table. 
 
+At no point is the sequence_num changed once its assigned since it will serve as one of the columns of the compound secondary key. If you ever do rollback the migration, be *careful* since re-running the migration might result in a different sequence_num if a nested resource is deleted.
+
 SequenceId is compatible with Active Record  **3.0**.
 
 ## Docs, Info and Support
@@ -35,6 +37,8 @@ SequenceId is compatible with Active Record  **3.0**.
 
     # add to Gemfile
     gem "sequenceid"
+
+    bundle install
 
     rails generate sequenceid <parent resource> <nested resource> #eg rails generate sequenceid Company Invoice 
 
@@ -67,9 +71,11 @@ If you have a bug to report, please include the following information:
 ## Credits
 
 SequenceId was create by Syed Ali @ 7vals 
+
 *   [7vals](http://www.7vals.com)
 
 Special thanks to
+
 *   [cancan](https://github.com/ryanb/cancan)
 
 *   [FriendlyId](https://github.com/norman/friendly_id)
