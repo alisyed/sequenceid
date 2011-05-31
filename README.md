@@ -66,10 +66,12 @@ If you have a bug to report, please include the following information:
 
 ## Credits
 
-SequenceId was create by Syed Ali @ 7vals
+SequenceId was create by Syed Ali @ 7vals 
+*   [7vals](http://www.7vals.com)
 
 Special thanks to
 *   [cancan](https://github.com/ryanb/cancan)
+
 *   [FriendlyId](https://github.com/norman/friendly_id)
 
 for serving as a template on certain best practices.
