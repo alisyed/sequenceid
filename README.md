@@ -54,7 +54,7 @@ SequenceId is compatible with Active Record  **3.0**.
 
 ## Bugs
 
-Please report them on the [Github issue tracker](http://github.com/alisyed/issues)
+Please report them on the [Github issue tracker](http://github.com/alisyed/sequenceid/issues)
 for this project.
 
 If you have a bug to report, please include the following information:
