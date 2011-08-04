@@ -22,22 +22,22 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
       @parent_resource=eval parent_resource_s.classify
       @nested_resource=eval nested_resource_s.classify
       if((!@parent_resource.ancestors.include?ORM) || (!@nested_resource.ancestors.include?ORM))
-        puts "both #{parent_resource_s} and #{nested_resource_s} need to be ActiveRecords"
+        puts "ERROR: both #{parent_resource_s} and #{nested_resource_s} need to be ActiveRecords"
         exit
       end
 
       if((!@nested_resource.new.respond_to? parent_resource_s) & (!@nested_resource.new.respond_to? parent_resource_s.pluralize))
-        puts "#{nested_resource_s} should have an association with #{parent_resource_s} otherwise its not possible to have a unique sequence number to identify #{nested_resource_s} from the url"
+        puts "ERROR: #{nested_resource_s} should have an association with #{parent_resource_s} otherwise its not possible to have a unique sequence number to identify #{nested_resource_s} from the url"
         #TODO need to check for belongs_to relation
         exit
       end
       #if not belongs to
       if(!@parent_resource.new.respond_to? @nested_resource.to_s.downcase.pluralize)
-        exit unless yes?("The resource #{nested_resource_s} should have a belongs to association with #{parent_resource_s}, do you still want to continue (risky)?")
+        exit unless yes?("ERROR: The resource #{nested_resource_s} should have a belongs to association with #{parent_resource_s}, do you still want to continue (risky)?")
       end
 
     rescue =>e
-      puts "both #{parent_resource_s} and #{nested_resource_s} need to be ActiveRecords #{e.message}"
+      puts "ERROR: both #{parent_resource_s} and #{nested_resource_s} need to be ActiveRecords.\n #{e.message}"
       exit
     end
   end
@@ -47,6 +47,6 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
     migration_template "migration.rb", "db/migrate/add_sequence_num_to_#{@nested_resource.to_s.downcase.pluralize}"
     #inject into model class module includeA
     @model_path ||= File.join("app", "models", "#{@nested_resource.to_s.underscore}.rb")
-    inject_into_class(@model_path,@nested_resource,"sequenceid '#{@parent_resource.to_s.downcase}','#{@nested_resource.to_s.downcase.pluralize}'\n")
+    inject_into_class(@model_path,@nested_resource,"\tsequenceid :#{@parent_resource.to_s.downcase.to_sym} , :#{@nested_resource.to_s.downcase.pluralize.to_sym}\n")
   end
 end
