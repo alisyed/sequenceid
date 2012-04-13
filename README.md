@@ -56,6 +56,11 @@ SequenceId is compatible with Active Record  **3.0**.
     GET http://company1.7vals.com:3000/invoices/1
     Get http://company2.7vals.com:3000/invoices/1
 
+## STI
+Supports Single Table Inheritance. Follow the above given steps in the base class, and all inherited STI classes for the model will share the sequence id generation.
+ie If base model is Animal, and STI are Dog and Cat, then the sequence numbers will be unique to animal. Meaning given a sequence number, you could identify either
+an animal uniquely whether it be a dog or a cat.
+
 ## Bugs
 
 Please report them on the [Github issue tracker](http://github.com/alisyed/sequenceid/issues)
