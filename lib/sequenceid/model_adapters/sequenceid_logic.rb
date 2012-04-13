@@ -29,7 +29,7 @@ module Sequenceid
 
       def reset_sequence_num
 	@save_counter||=1
-	if new_record? && @save_counter<3
+	if new_record? && valid? && @save_counter<3 
 	  logger.info "SEQUENCE_ID_GEM:: attempt number #{@save_counter} of a max 2"
 	  self.sequence_num=relation_sequence.order("id").last.try(:sequence_num) +1
 	  @save_counter+=1
@@ -40,7 +40,15 @@ module Sequenceid
       end
 
       def relation_sequence
-	self.send(self.class.instance_variable_get("@parent_rel")).send(self.class.instance_variable_get("@current_rel"))
+	resource_klass=get_sti_parent_class self.class
+	self.send(resource_klass.instance_variable_get("@parent_rel")).send(resource_klass.instance_variable_get("@current_rel"))
+      end
+
+      #for Single Table Inheritance, we need to keep going up the hierarchy until we reach the class right below ActiveRecord. Probably
+      #ought to fix this for extreme cases where models are based on a different hierarchy (monkey patch with your base model class)
+      def get_sti_parent_class(klass)
+	return klass if (klass.superclass == ActiveRecord::Base || klass.superclass==Object || klass.superclass.nil?)
+	get_sti_parent_class(klass.superclass)
       end
 
     end
