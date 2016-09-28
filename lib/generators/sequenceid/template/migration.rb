@@ -15,7 +15,7 @@ class AddSequenceNumTo<%= @nested_resource.to_s.downcase.pluralize.camelize %> <
   def self.update_sequence_num_values
     <%= @parent_resource.to_s%>.all.each do |parent|
       cntr = 1
-      parent.<%= @nested_resource_name %>.reorder("created_at").all.each do |nested|
+      parent.<%= @nested_resource_name %>.reorder("id").all.each do |nested|
         nested.sequence_num = cntr
         cntr += 1
         nested.save
