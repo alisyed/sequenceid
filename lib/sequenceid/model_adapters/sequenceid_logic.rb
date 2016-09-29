@@ -2,11 +2,11 @@ module Sequenceid
   module Logic
 
     def sequenceid(parent_rel_sym, current_rel_sym)
-      @parent_rel = parent_rel_sym.to_s
+      @parent_rel  = parent_rel_sym.to_s
       @current_rel = current_rel_sym.to_s
 
       class_eval do
-        before_create :set_sequence_num
+        before_create  :set_sequence_num
         after_rollback :reset_sequence_num
         include InstanceMethods
       end
@@ -21,7 +21,7 @@ module Sequenceid
 
       def set_sequence_num
         if new_record?
-          self.sequence_num  = relation_sequence.reorder("id asc").last.try(:sequence_num) || 0  # REORDER to override order clause if default scope applied on nested_resource
+          self.sequence_num  = relation_sequence.reorder("id").last.try(:sequence_num) || 0  # REORDER to override order clause if default scope applied on nested_resource
           self.sequence_num += 1
         end
         return true
@@ -31,8 +31,8 @@ module Sequenceid
         @save_counter ||= 1
         if new_record? && valid? && @save_counter < 3 
           logger.info "SEQUENCE_ID_GEM:: attempt number #{@save_counter} of a max 2"
-          self.sequence_num = relation_sequence.reorder("id asc").last.try(:sequence_num) + 1 # REORDER to override order clause if default scope applied on nested_resource
-          @save_counter += 1
+          self.sequence_num = relation_sequence.reorder("id").last.try(:sequence_num) + 1 # REORDER to override order clause if default scope applied on nested_resource
+          @save_counter    += 1
           save
         else
           raise
@@ -47,7 +47,7 @@ module Sequenceid
       #for Single Table Inheritance, we need to keep going up the hierarchy until we reach the class right below ActiveRecord. Probably
       #ought to fix this for extreme cases where models are based on a different hierarchy (monkey patch with your base model class)
       def get_sti_parent_class(klass)
-        return klass if (klass.superclass == ActiveRecord::Base || klass.superclass==Object || klass.superclass.nil?)
+        return klass if (klass.superclass == ActiveRecord::Base || klass.superclass == Object || klass.superclass.nil?)
         get_sti_parent_class(klass.superclass)
       end
 
