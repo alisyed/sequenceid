@@ -29,13 +29,15 @@ module Sequenceid
 
       def reset_sequence_num
         @save_counter ||= 1
-        if new_record? && valid? && @save_counter < 3 
-          logger.info "SEQUENCE_ID_GEM:: attempt number #{@save_counter} of a max 2"
-          self.sequence_num = relation_sequence.reorder("id").last.try(:sequence_num) + 1 # REORDER to override order clause if default scope applied on nested_resource
-          @save_counter    += 1
-          save
-        else
-          raise
+        if new_record? && valid?
+          if @save_counter < 3
+            logger.info "SEQUENCE_ID_GEM:: attempt number #{@save_counter} of a max 2"
+            self.sequence_num=relation_sequence.order("id").last.try(:sequence_num) + 1
+            @save_counter += 1
+            save
+          else
+            raise
+          end
         end
       end
 
