@@ -40,7 +40,7 @@ SequenceId is compatible with Active Record  **3.0**.
 
     bundle install
 
-    rails generate sequenceid <parent resource> <nested resource> #eg rails generate sequenceid Company Invoice 
+    rails generate sequenceid <parent resource> <nested resource> #eg rails generate sequenceid company invoice 
 
     rake db:migrate
 
