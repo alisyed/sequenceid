@@ -32,7 +32,7 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
         exit
       end
       #if not belongs to
-      if(!@parent_resource.new.respond_to? @nested_resource.to_s.downcase.pluralize)
+      if(!@parent_resource.new.respond_to? @nested_resource.to_s.underscore.pluralize)
         exit unless yes?("ERROR: The resource #{nested_resource_s} should have a belongs to association with #{parent_resource_s}, do you still want to continue (risky)?")
       end
 
@@ -44,7 +44,7 @@ class SequenceidGenerator < ActiveRecord::Generators::Base
 
   def do_work
     #create migration and run migrate script
-    migration_template "migration.rb", "db/migrate/add_sequence_num_to_#{@nested_resource.to_s.downcase.pluralize}.rb"
+    migration_template "migration.rb", "db/migrate/add_sequence_num_to_#{@nested_resource.to_s.underscore.pluralize}.rb"
     #inject into model class module includeA
     @model_path ||= File.join("app", "models", "#{@nested_resource.to_s.underscore}.rb")
     inject_into_class(@model_path,@nested_resource,"\tsequenceid :#{@parent_resource.to_s.downcase.to_sym} , :#{@nested_resource.to_s.downcase.pluralize.to_sym}\n")
