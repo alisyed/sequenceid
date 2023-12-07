@@ -1,6 +1,6 @@
-class AddSequenceNumTo<%= @nested_resource.to_s.downcase.pluralize.camelize %> < ActiveRecord::Migration
+class AddSequenceNumTo<%= @nested_resource.to_s.underscore.pluralize.camelize %> < ActiveRecord::Migration
   <% @parent_resource_name = @parent_resource.to_s.downcase %>
-  <% @nested_resource_name = @nested_resource.to_s.downcase.pluralize %>
+  <% @nested_resource_name = @nested_resource.to_s.underscore.pluralize %>
   def self.up
     add_column :<%= @nested_resource_name %>, :sequence_num, :integer, null: false
     update_sequence_num_values
